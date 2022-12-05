@@ -1,16 +1,41 @@
-# nodeJS-Task
 
-You are given two json files:
- - stock.json: contains objects which represent the starting stock levels for given SKUS
- - transactions.json: contains an array of transactions since the stock levels were recorded in `stock.json`
 
-The objective is to create a function which is able to return the current stock levels for a given SKU by combining the data in these two files. These are the requirements.
+### Features
 
-- The function must match the following signature: `(sku: string) => Promise<{ sku: string, qty: number }>`.
-- The function must read from the `stock` and `transactions` files on each invocation (totals cannot be precomputed)
-- The function must throw an error where the SKU does not exist in the `transactions.json` and `stock.json` file
-- All code must be adequately tested
+- Minimal
+- TypeScript v4
+- Testing with Jest
+- Linting with Eslint and Prettier
+- Pre-commit hooks with Husky
+- VS Code debugger scripts
+- Local development with Nodemon
 
-Notes:
-- Transactions may exist for SKUs which are not present in `stock.json`. It should be assumed that the starting quantity for these is 0.
-- Functionality can be split into many files to help keep the project clear and organised 
+### Scripts
+
+#### `npm run start:dev`
+
+Starts the application in development using `nodemon` and `ts-node` to do hot reloading.
+
+#### `npm run start`
+
+Starts the app in production by first building the project with `npm run build`, and then executing the compiled JavaScript at `build/index.js`.
+
+#### `npm run build`
+
+Builds the app at `build`, cleaning the folder first.
+
+#### `npm run test`
+
+Runs the `jest` tests once.
+
+#### `npm run test:dev`
+
+Run the `jest` tests in watch mode, waiting for file changes.
+
+#### `npm run prettier-format`
+
+Format your code.
+
+#### `npm run prettier-watch`
+
+Format your code in watch mode, waiting for file changes.
