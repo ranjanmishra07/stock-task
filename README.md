@@ -10,6 +10,10 @@
 - VS Code debugger scripts
 - Local development with Nodemon
 
+### Run express server on localhost:3000
+api endopint -> http://localhost:3000/api/inventory?sku=KED089097/68/09
+
+This api will give back response in json format , run it on chrome or postman after running npm run start:dev and once the server successfully boots up at port 3000
 ### Scripts
 
 #### `npm run start:dev`

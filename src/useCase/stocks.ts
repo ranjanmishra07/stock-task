@@ -1,11 +1,9 @@
 import fs from "fs";
 import path from "path";
+import { IStock } from "../interfaces/stock.interface";
 // import {} from '../../jest.config'
-interface IStock {
-    sku: string,
-    stock: number
-}
-const filePath = path.resolve(__dirname,'../../stock.json') ;
+
+const filePath = path.resolve(__dirname,'../../store/stock.json') ;
 
 export async function findStock(sku: string): Promise <IStock[]> {
 

@@ -1,4 +1,4 @@
-import {calculateCurrentStockLevels} from './index';
+import {calculateCurrentStockLevels} from './inventiry.service';
 
 const testSku = 'KED089097/68/09';
 const totalQty = {sku: testSku, qty: 5184};

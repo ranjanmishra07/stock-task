@@ -1,36 +1,29 @@
-// eslint-disable-next-line no-console
-import {findTransaction} from './useCase/transaction';
-import {findStock} from './useCase/stocks';
+import cors from 'cors';
+import express from 'express';
+import config from './config';
+import { getInventoryRouter } from './controllers/inventory.controller';
+// import Db from './models/pg';
+const getAPIRouter = () =>
+  express
+    .Router({ mergeParams: true })
+    .use(express.json({ limit: '10mb' }))
+    .use('/inventory', getInventoryRouter())
 
-export async function calculateCurrentStockLevels(sku: string): Promise <{sku: string, qty: number}> {
-
-    const promises = await Promise.all([findStock(sku),findTransaction(sku) ]);
-
-    const stocks = promises[0];
-    const transactions = promises[1];
-    const calculateTransactions = [];
-    if(stocks.length === 0 && transactions.length === 0) {
-        throw new Error('no sku present');
-    }
-    if(stocks.length === 0) {
-        return {sku, qty : 0}
-    }
-    let totalStock = 0
-    let totalQty = 0
-    stocks.forEach(a=> {
-        totalStock = totalStock + a.stock;
-    })
-    transactions.forEach(a=> {
-        if(a.type === 'order') {
-            totalQty = totalQty + a.qty;
-        }
-        if(a.type === 'refund') {
-            totalQty = totalQty - a.qty;
-        }
-    })
-    console.log("totalStock", totalStock, "totalQty", totalQty, "current total stock level", totalStock * totalQty)
-    //assuming total qty of current stock level is total qty * number of stock
-    return {sku, qty: totalQty * totalQty}
+async function main() {
+  const app = express()
+    .disable('x-powered-by')
+    .enable('trust proxy')
+    .use(cors())
+    .use('/api', getAPIRouter())
+    .listen(config.port, () =>
+      console.log(`listening on http://localhost:${config.port}`)
+    );
+  function stopServer() {
+    console.log('stopping server');
+    app.close();
+  }
+  process.once('SIGTERM', stopServer);
+  process.once('SIGINT', stopServer);
 }
 
-// calculateCurrentStockLevels('KED089097/68/09').catch((e)=> console.log(e));
+main().catch((err) => console.error('app.init.failed', err));

@@ -1,12 +1,9 @@
 import fs from "fs";
 import path from "path";
+import { ITransaction } from "../interfaces/transaction.interface";
 // import {} from '../../jest.config'
-interface ITransaction {
-    sku: string,
-    type: string,
-    qty: number
-}
-const filePath = path.resolve(__dirname,'../../transactions.json') ;
+
+const filePath = path.resolve(__dirname,'../../store/transactions.json') ;
 
 export async function findTransaction(sku: string): Promise <ITransaction[]> {
 
