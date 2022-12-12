@@ -17,21 +17,21 @@ export async function calculateCurrentStockLevels(sku: string): Promise <{sku: s
         return {sku, qty : 0}
     }
     let totalStock = 0
-    let totalQty = 0
+    // let totalQty = 0
     stocks.forEach(a=> {
         totalStock = totalStock + a.stock;
     })
     transactions.forEach(a=> {
         if(a.type === ETransactionType.ORDER) {
-            totalQty = totalQty + a.qty;
+            totalStock = totalStock - a.qty;
         }
         if(a.type === ETransactionType.REFUND) {
-            totalQty = totalQty - a.qty;
+            totalStock = totalStock + a.qty;
         }
     })
-    console.log("totalStock", totalStock, "totalQty", totalQty, "current total stock level", totalStock * totalQty)
+    console.log("current totalStock", totalStock)
     //assuming total qty of current stock level is total qty * number of stock
-    return {sku, qty: totalQty * totalQty}
+    return {sku, qty: totalStock}
 }
 
 // calculateCurrentStockLevels('KED089097/68/09').catch((e)=> console.log(e));
